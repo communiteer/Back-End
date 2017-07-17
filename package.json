@@ -4,8 +4,9 @@
   "description": "Server and PostgreSQL",
   "main": "index.js",
   "scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"lint": "eslint ./"
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint ./",
+		"start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,9 @@
   "homepage": "https://github.com/communiteer/Back-End#readme",
   "devDependencies": {
     "eslint": "^3.19.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "nodemon": "^1.11.0"
   }
 }
