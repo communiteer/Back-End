@@ -45,7 +45,18 @@ exports.getGroupById = (req,res,next) => {
 
 exports.getGroupsByArea = (req,res,next) => {
 	const area_id = req.params.area;
-	db.any('SELECT * FROM Groups WHERE Area_id = $1', area_id)
+	db.any('SELECT * FROM Groups WHERE area_id = $1', area_id)
+	.then((data) => {
+		res.status(200).json({data});
+	})
+	.catch(err => {
+		return next(err);
+	});
+};
+
+exports.getEventsByArea = (req,res,next) => {
+	const area_id = req.params.area;
+	db.any('SELECT * FROM Events WHERE area_id = $1', area_id)
 	.then((data) => {
 		res.status(200).json({data});
 	})

@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const path = require('path');
-const {getUserById, getGroupById, getAreas, getSkills, getGroupsByArea} = require(path.resolve(__dirname,'..','src','controllers'));
+const {getUserById, getGroupById, getAreas, getSkills, getGroupsByArea, getEventsByArea} = require(path.resolve(__dirname,'..','src','controllers'));
 const server = require('../server');
 
 const request = require('supertest');
@@ -88,5 +88,20 @@ describe('TEST ALL THE ROUTES', () => {
 			});
 		});
 	});
-
+	
+	describe('GET-EVENTS-BY-AREA', () => {
+		it('is a function', () => {
+			expect(getEventsByArea).to.be.a('function');
+		});
+		it('should return all the events for given area', (done) => {
+			request(server)
+			.get('/events/1')
+			.end((err,res) => {
+				expect(res.status).to.equal(200);
+				expect(res.body).to.be.an('object');
+				expect(res.body.data).to.be.an('array');
+				done();
+			});
+		});
+	});
 });
