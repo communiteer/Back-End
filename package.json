@@ -4,9 +4,9 @@
   "description": "Server and PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-		"lint": "eslint ./",
-		"start": "nodemon server.js"
+    "test": "psql -f ./spec/seed/setup.sql && psql -f ./spec/seed/seed.sql  && mocha spec/",
+    "lint": "eslint ./",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/communiteer/Back-End#readme",
   "devDependencies": {
-    "eslint": "^3.19.0"
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "eslint": "^3.19.0",
+    "pg-promise": "^6.3.5"
   },
   "dependencies": {
     "express": "^4.15.3",
