@@ -13,7 +13,7 @@ exports.getAreas = (req, res, next) => {
 };
 exports.getUserById = (req, res, next) => {
 	const id = req.params.id;
-	db.any('SELECT user_id, user_name, area_name, Phone, Email, ProfilePicture  FROM Users, Areas WHERE Users.area = Areas.area_id AND Users.user_id = $1', id)
+	db.any('SELECT user_id, user_name, Areas.area_name, Phone, Email, ProfilePicture FROM Users JOIN Areas ON Users.area = Areas.area_id WHERE Users.user_id = $1', id)
 		.then((data) => {
 			res.status(200).json({ data });
 		})
@@ -23,7 +23,7 @@ exports.getUserById = (req, res, next) => {
 };
 exports.getGroupById = (req,res,next) => {
 	const ID = req.params.id;
-	db.any('SELECT group_id, group_name, league,user_name as admin_name FROM Groups,Users WHERE Groups.admin_id = Users.user_id AND group_id = $1', ID)
+	db.any('SELECT group_id, group_name, league,Users.user_name as admin_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
 	.then((data) => {
 		res.status(200).json({data});
 	})
