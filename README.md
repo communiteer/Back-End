@@ -4,4 +4,5 @@ Routes =>
 
 	/areas  					get all the areas
 	/user/:id 				get user by its id
-	/groups/:id				get groups by their id
+	/group/:id				get groups by their id
+	/skills						get all skills

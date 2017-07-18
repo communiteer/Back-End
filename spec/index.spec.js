@@ -1,19 +1,34 @@
 process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const path = require('path');
-const {getUserById, getGroupById, getAreas} = require(path.resolve(__dirname,'..','src','controllers'));
+const {getUserById, getGroupById, getAreas, getSkills} = require(path.resolve(__dirname,'..','src','controllers'));
 const server = require('../server');
 
 const request = require('supertest');
 
 describe('TEST ALL THE ROUTES', () => {
-	describe('Get Areas', () => {
+	describe('Get Skills', () => {
 		it('is a function', () => {
-			expect(getAreas).to.be.a('function');
+			expect(getSkills).to.be.a('function');
 		});
 		it('should return all the available areas', (done) => {
 			request(server)
 			.get('/areas')
+			.end((err,res) => {
+				expect(res.status).to.equal(200);
+				expect(res.body).to.be.an('object');
+				expect(res.body.data).to.be.an('array');
+				done();
+			});
+		});
+	});
+	describe('Get Skills', () => {
+		it('is a function', () => {
+			expect(getAreas).to.be.a('function');
+		});
+		it('should return all the available skills', (done) => {
+			request(server)
+			.get('/skills')
 			.end((err,res) => {
 				expect(res.status).to.equal(200);
 				expect(res.body).to.be.an('object');
@@ -28,7 +43,7 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return the user information using user id', (done) => {
 			request(server)
-			.get('/users/1')
+			.get('/user/1')
 			.end((err,res) => {
 				expect(res.status).to.equal(200);
 				expect(res.body).to.be.an('object');
@@ -45,7 +60,7 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return the group information using group id', (done) => {
 			request(server)
-			.get('/groups/1')
+			.get('/group/1')
 			.end((err,res) => {
 				expect(res.status).to.equal(200);
 				expect(res.body).to.be.an('object');
