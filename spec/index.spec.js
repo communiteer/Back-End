@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const path = require('path');
-const {getUserById, getGroupById, getAreas, getSkills} = require(path.resolve(__dirname,'..','src','controllers'));
+const {getUserById, getGroupById, getAreas, getSkills, getGroupsByArea} = require(path.resolve(__dirname,'..','src','controllers'));
 const server = require('../server');
 
 const request = require('supertest');
@@ -68,6 +68,22 @@ describe('TEST ALL THE ROUTES', () => {
 				expect(res.body.data[0].group_id).to.equal(1);
 				expect(res.body.data[0].admin_name).to.equal('Ben');
 				expect(res.body.data[0].group_name).to.equal('A');
+				done();
+			});
+		});
+	});
+	
+	describe('GET-GROUPS-BY-AREA', () => {
+		it('is a function', () => {
+			expect(getGroupsByArea).to.be.a('function');
+		});
+		it('should return all the groups for given area', (done) => {
+			request(server)
+			.get('/groups/1')
+			.end((err,res) => {
+				expect(res.status).to.equal(200);
+				expect(res.body).to.be.an('object');
+				expect(res.body.data).to.be.an('array');
 				done();
 			});
 		});

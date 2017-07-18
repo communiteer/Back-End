@@ -6,5 +6,6 @@ app.get('/areas', DB.getAreas);
 app.get('/skills', DB.getSkills);
 app.get('/user/:id', DB.getUserById);
 app.get('/group/:id',DB.getGroupById);
+app.get('/groups/:area', DB.getGroupsByArea);
 
 module.exports = app;
