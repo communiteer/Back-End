@@ -1,12 +1,27 @@
 process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const path = require('path');
-const {getUserById, getGroupById} = require(path.resolve(__dirname,'..','src','controllers'));
+const {getUserById, getGroupById, getAreas} = require(path.resolve(__dirname,'..','src','controllers'));
 const server = require('../server');
 
 const request = require('supertest');
 
 describe('TEST ALL THE ROUTES', () => {
+	describe('Get Areas', () => {
+		it('is a function', () => {
+			expect(getAreas).to.be.a('function');
+		});
+		it('should return all the available areas', (done) => {
+			request(server)
+			.get('/areas')
+			.end((err,res) => {
+				expect(res.status).to.equal(200);
+				expect(res.body).to.be.an('object');
+				expect(res.body.data).to.be.an('array');
+				done();
+			});
+		});
+	});
 	describe('GET-USER-BY-ID', () => {
 		it('is a function', () => {
 			expect(getUserById).to.be.a('function');
