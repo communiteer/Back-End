@@ -45,7 +45,7 @@ CREATE TABLE Events (
 		FOREIGN KEY(area) REFERENCES Areas(area_id),
 	event_date DATE,
 	event_time TIME,
-	event_group INTEGER
+	event_group INTEGER,
 		FOREIGN KEY(event_group) REFERENCES Groups(group_id),
 	event_description VARCHAR
 );
