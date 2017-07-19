@@ -64,3 +64,13 @@ exports.getEventsByArea = (req,res,next) => {
 		return next(err);
 	});
 };
+exports.getEventsById = (req,res,next) => {
+	const ID = req.params.id;
+	db.any('SELECT event_id, event_name, event_date, event_time, event_description,Areas.area_name, Groups.group_name FROM Events JOIN Areas ON Events.area_id=Areas.area_id JOIN Groups ON Events.group_id=Groups.group_id WHERE Events.event_id = $1',ID)
+	.then((data) => {
+		res.status(200).json({data});
+	})
+	.catch(err => {
+		return next(err);
+	});
+};
