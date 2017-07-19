@@ -74,3 +74,13 @@ exports.getEventsById = (req,res,next) => {
 		return next(err);
 	});
 };
+exports.getUserGroups = (req,res,next) => {
+	const userID = req.params.user_id;
+	db.any('SELECT Users.user_name, Groups.group_name FROM GroupUser JOIN Users ON Users.user_id = GroupUser.user_id JOIN Groups ON Groups.group_id = GroupUser.group_id WHERE GroupUser.user_id = $1', userID)
+	.then((data) => {
+		res.status(200).json({data});
+	})
+	.catch(err => {
+		return next(err);
+	});
+};

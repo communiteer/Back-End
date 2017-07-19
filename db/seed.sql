@@ -26,4 +26,3 @@ VALUES ('It is not too old to learn computer',2,'2017-1-30','10:30',1,'aaaaaa'),
 ('It is not too old to cook',2,'2016-6-12','10:30',2,'aaaaaa'),
 ('Eid party',1,'2017-1-30','10:30',3,'aaaaaa'),
 ('Kids Partyr',3,'2015-1-30','10:30',4,'aaaaaa');
-
