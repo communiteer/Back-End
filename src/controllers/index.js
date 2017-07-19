@@ -44,8 +44,8 @@ exports.getGroupById = (req,res,next) => {
 };
 
 exports.getGroupsByArea = (req,res,next) => {
-	const area_id = req.params.area;
-	db.any('SELECT * FROM Groups WHERE area_id = $1', area_id)
+	const ID = req.params.area;
+	db.any('SELECT group_id, group_name, league, Users.user_name as admin_name, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
 	.then((data) => {
 		res.status(200).json({data});
 	})
