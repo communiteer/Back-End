@@ -75,7 +75,7 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].group_id).to.equal(1);
-					expect(res.body.data[0].admin_name).to.equal('Ben');
+					expect(res.body.data[0].admin_fname).to.equal('Kamran');
 					expect(res.body.data[0].group_name).to.equal('A');
 					done();
 				});
@@ -144,7 +144,7 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].user_name).to.equal('Ben');
+					expect(res.body.data[0].user_fname).to.equal('Ben');
 					done();
 				});
 		});

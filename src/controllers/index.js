@@ -24,7 +24,7 @@ exports.getSkills = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
 	const id = req.params.id;
-	db.any('SELECT user_id, user_name, Areas.area_name, Phone, Email, ProfilePicture FROM Users JOIN Areas ON Users.area = Areas.area_id WHERE Users.user_id = $1', id)
+	db.any('SELECT user_id, user_fName, user_lName, Areas.area_name, Phone, Email, ProfilePicture FROM Users JOIN Areas ON Users.area = Areas.area_id WHERE Users.user_id = $1', id)
 		.then((data) => {
 			res.status(200).json({ data });
 		})
@@ -34,7 +34,7 @@ exports.getUserById = (req, res, next) => {
 };
 exports.getGroupById = (req,res,next) => {
 	const ID = req.params.id;
-	db.any('SELECT group_id, group_name, league,Users.user_name as admin_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
+	db.any('SELECT group_id, group_name, league,Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
 	.then((data) => {
 		res.status(200).json({data});
 	})
@@ -45,7 +45,7 @@ exports.getGroupById = (req,res,next) => {
 
 exports.getGroupsByArea = (req,res,next) => {
 	const ID = req.params.area;
-	db.any('SELECT group_id, group_name, league, Users.user_name as admin_name, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
+	db.any('SELECT group_id, group_name, league, Users.user_fName as admin_fname,Users.user_lName as admin_lname, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
 	.then((data) => {
 		res.status(200).json({data});
 	})
@@ -76,7 +76,7 @@ exports.getEventsById = (req,res,next) => {
 };
 exports.getUserGroups = (req,res,next) => {
 	const userID = req.params.user_id;
-	db.any('SELECT Users.user_name, Groups.group_name FROM GroupUser JOIN Users ON Users.user_id = GroupUser.user_id JOIN Groups ON Groups.group_id = GroupUser.group_id WHERE GroupUser.user_id = $1', userID)
+	db.any('SELECT Users.user_fName, Users.user_lName, Groups.group_name FROM GroupUser JOIN Users ON Users.user_id = GroupUser.user_id JOIN Groups ON Groups.group_id = GroupUser.group_id WHERE GroupUser.user_id = $1', userID)
 	.then((data) => {
 		res.status(200).json({data});
 	})

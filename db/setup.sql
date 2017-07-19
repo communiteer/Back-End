@@ -9,7 +9,8 @@ CREATE TABLE Areas (
 
 CREATE TABLE Users (
 	user_id SERIAL PRIMARY KEY,
-	user_name VARCHAR,
+	user_fName VARCHAR,
+	user_lName VARCHAR,
 	area INTEGER REFERENCES Areas(area_id),
 	Phone VARCHAR,
 	Email VARCHAR,
