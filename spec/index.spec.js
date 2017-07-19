@@ -9,7 +9,8 @@ const {
 	getGroupsByArea,
 	getEventsByArea,
 	getEventsById,
-	getUserGroups
+	getUserGroups,
+	getGroupUsers
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -133,13 +134,30 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 	});
 
-	describe('GET-ALL-GROUPS-FOR-ONE-USER', () => {
+	describe('GET-ALL-GROUPS-INFO-FOR-ONE-USER', () => {
 		it('is a function', () => {
 			expect(getUserGroups).to.be.a('function');
 		});
-		it('should return all the event information for agiven event id', (done) => {
+		it('should return all the group information for agiven user id', (done) => {
 			request(server)
 				.get('/users/1/groups')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].admin_fname).to.equal('Kamran');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-USERS-INFO-FOR-ONE-GROUP', () => {
+		it('is a function', () => {
+			expect(getGroupUsers).to.be.a('function');
+		});
+		it('should return all the user information for agiven group id', (done) => {
+			request(server)
+				.get('/groups/1/users')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');

@@ -10,3 +10,4 @@ Routes =>
 	/events/area/:area																		get events by area
 	/events/:id																						get Event by its id
 	/users/:user_id/groups																get All groups for given user
+	/groups/:group_id/users																get All users for given Group
