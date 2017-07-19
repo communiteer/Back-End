@@ -22,7 +22,7 @@ INSERT INTO Skills (skill_name)
 VALUES ('chef'), ('cleaner'), ('Math Tutor'), ('English Tutor'), ('Tech Tutor');
 
 INSERT INTO Events (event_name, area_id, event_date, event_time, group_id, event_description)
-VALUES ('It is not too old to learn computer',2,'2017-1-30','10:30',1,'aaaaaa'),
+VALUES ('It is not too old to learn computer',2,'2017-1-30','10:30',3,'aaaaaa'),
 ('It is not too old to cook',2,'2016-6-12','10:30',2,'aaaaaa'),
 ('Eid party',1,'2017-1-30','10:30',3,'aaaaaa'),
-('Kids Partyr',3,'2015-1-30','10:30',4,'aaaaaa');
+('Kids Partyr',3,'2015-1-30','10:30',2,'aaaaaa');

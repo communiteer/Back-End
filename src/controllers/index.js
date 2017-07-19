@@ -113,3 +113,16 @@ exports.getGroupUsers = (req, res, next) => {
 			return next(err);
 		});
 };
+
+exports.getUserEvents = (reg,res,next) => {
+	const userID = reg.params.userID;
+	db.any('SELECT GroupUser.group_id, Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM GroupUser JOIN Events ON GroupUser.group_id=Events.group_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1',userID)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};

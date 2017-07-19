@@ -11,5 +11,6 @@ app.get('/events/area/:area', DB.getEventsByArea);
 app.get('/events/:id',DB.getEventsById);
 app.get('/users/:user_id/groups', DB.getUserGroups);
 app.get('/groups/:group_id/users', DB.getGroupUsers);
+app.get('/users/:userID/events',DB.getUserEvents);
 
 module.exports = app;
