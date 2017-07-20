@@ -39,7 +39,7 @@ exports.getUserById = (req, res, next) => {
 };
 exports.getGroupById = (req, res, next) => {
 	const ID = req.params.id;
-	db.any('SELECT group_id, group_name, league,Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
+	db.any('SELECT group_id, group_name, league, description, contact_details, Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
 		.then((data) => {
 			res.status(200).json({
 				data
@@ -52,7 +52,7 @@ exports.getGroupById = (req, res, next) => {
 
 exports.getGroupsByArea = (req, res, next) => {
 	const ID = req.params.area;
-	db.any('SELECT group_id, group_name, league, Users.user_fName as admin_fname,Users.user_lName as admin_lname, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
+	db.any('SELECT group_id, group_name, league,description, contact_details, Users.user_fName as admin_fname,Users.user_lName as admin_lname, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
 		.then((data) => {
 			res.status(200).json({
 				data

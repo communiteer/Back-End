@@ -23,6 +23,8 @@ CREATE TABLE Groups (
 	group_name VARCHAR,
 	area_id INTEGER REFERENCES Areas(area_id),
 	admin_id INTEGER REFERENCES Users(user_id),
+	description VARCHAR,
+	contact_details VARCHAR,
 	league INTEGER 
 		CHECK (league BETWEEN 1 AND 5)
 );

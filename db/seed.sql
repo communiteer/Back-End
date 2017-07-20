@@ -12,8 +12,11 @@ INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)
 ('Leo','Duffy', 1, '07425199999', 'Leo@hotmail.com', 'http://google.Leo.jpg'),
 ('Kamran','Mujtaba', 3, '07425199999', 'Kameron@hotmail.com', 'http://google.Kameron.jpg');
 
-INSERT INTO Groups (group_name,area_id,admin_id,league) 
-	VALUES ('A',1,4,4), ('B',1,4,3), ('C',2,4,4), ('D',3,4,4);
+INSERT INTO Groups (group_name,area_id,admin_id,league,description ,contact_details) 
+	VALUES ('A',1,4,4,'anything', '123456789'),
+	 ('B',1,4,3,'aaaaaa', '123456789'), 
+	 ('C',2,4,4,'bbb', '123456'), 
+	 ('D',3,4,4,'ccc', '789456123');
 
 INSERT INTO GroupUser (user_id,group_id) 
 	VALUES (1,1), (2,1), (3,1), (1,2), (2,2), (2,3), (3,3), (1,4), (4,4);
