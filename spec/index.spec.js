@@ -10,7 +10,12 @@ const {
 	getEventsByArea,
 	getEventsById,
 	getUserGroups,
-	getGroupUsers
+	getGroupUsers,
+	getUserEvents,
+	getEventUsers,
+	getUserSkills,
+	getEventSkills,
+	addGroup
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -163,6 +168,96 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].user_fname).to.equal('Ben');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-EVENTS-FOR-ONE-USER', () => {
+		it('is a function', () => {
+			expect(getUserEvents).to.be.a('function');
+		});
+		it('should return all events information for agiven user', (done) => {
+			request(server)
+				.get('/users/1/events')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].event_name).to.equal('It is not too old to learn computer');
+					done();
+				});
+		});
+	});
+		describe('GET-ALL-USERS-FOR-ONE-EVENT', () => {
+		it('is a function', () => {
+			expect(getEventUsers).to.be.a('function');
+		});
+		it('should return all users for agiven event', (done) => {
+			request(server)
+				.get('/events/1/users')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_fname).to.equal('Ben');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-SKILLS-FOR-ONE-USER', () => {
+		it('is a function', () => {
+			expect(getUserSkills).to.be.a('function');
+		});
+		it('should return all the skills for agiven user', (done) => {
+			request(server)
+				.get('/users/1/skills')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_fname).to.equal('Ben');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-SKILLS-FOR-ONE-EVENT', () => {
+		it('is a function', () => {
+			expect(getEventSkills).to.be.a('function');
+		});
+		it('should return all the skills needed for agiven event', (done) => {
+			request(server)
+				.get('/events/1/skills')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].skill_name).to.equal('Math Tutor');
+					done();
+				});
+		});
+	});
+
+	describe('POST-NEW_GROUP', () => {
+		it('is a function', () => {
+			expect(addGroup).to.be.a('function');
+		});
+		it('should return a new group', (done) => {
+			request(server)
+				.post('/users/1/group')
+				.send({
+					"name":"goodName",
+					"area":"1",
+					"description":"its a good group",
+					"details":"contact us on 145236789"
+					})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.groups).to.be.an('object');
+					expect(res.body.groups.group_name).to.equal('goodName');
 					done();
 				});
 		});

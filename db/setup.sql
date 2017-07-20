@@ -23,6 +23,8 @@ CREATE TABLE Groups (
 	group_name VARCHAR,
 	area_id INTEGER REFERENCES Areas(area_id),
 	admin_id INTEGER REFERENCES Users(user_id),
+	description VARCHAR,
+	contact_details VARCHAR,
 	league INTEGER 
 		CHECK (league BETWEEN 1 AND 5)
 );
@@ -46,4 +48,20 @@ CREATE TABLE Events (
 	event_time TIME,
 	group_id INTEGER REFERENCES Groups(group_id),
 	event_description VARCHAR
+);
+
+CREATE TABLE UserSkill (
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES Users(user_id),
+	skill_id INTEGER REFERENCES Skills(skill_id)
+);
+CREATE TABLE UserEvents (
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES Users(user_id),
+	event_id INTEGER REFERENCES Events(event_id)
+);
+CREATE TABLE EventSkill (
+	id SERIAL PRIMARY KEY,
+	skill_id INTEGER REFERENCES Skills(skill_id),
+	event_id INTEGER REFERENCES Events(event_id)
 );

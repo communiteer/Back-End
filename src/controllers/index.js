@@ -39,7 +39,7 @@ exports.getUserById = (req, res, next) => {
 };
 exports.getGroupById = (req, res, next) => {
 	const ID = req.params.id;
-	db.any('SELECT group_id, group_name, league,Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
+	db.any('SELECT group_id, group_name, league, description, contact_details, Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
 		.then((data) => {
 			res.status(200).json({
 				data
@@ -52,7 +52,7 @@ exports.getGroupById = (req, res, next) => {
 
 exports.getGroupsByArea = (req, res, next) => {
 	const ID = req.params.area;
-	db.any('SELECT group_id, group_name, league, Users.user_fName as admin_fname,Users.user_lName as admin_lname, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
+	db.any('SELECT group_id, group_name, league,description, contact_details, Users.user_fName as admin_fname,Users.user_lName as admin_lname, Areas.area_name FROM Groups JOIN Users ON Groups.admin_id = Users.user_id JOIN Areas ON Groups.area_id=Areas.area_id WHERE Groups.area_id = $1', ID)
 		.then((data) => {
 			res.status(200).json({
 				data
@@ -112,4 +112,75 @@ exports.getGroupUsers = (req, res, next) => {
 		.catch(err => {
 			return next(err);
 		});
+};
+
+exports.getUserEvents = (req,res,next) => {
+	const userID = req.params.userID;
+	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1',userID)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
+exports.getEventUsers = (req,res,next) => {
+	const eventId = req.params.eventId;
+	db.any('SELECT Users.user_fName, Users.user_lName, Users.user_id FROM UserEvents JOIN Users ON UserEvents.user_id = Users.user_id Where UserEvents.event_id=$1',eventId)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
+exports.getUserSkills = (req,res,next) => {
+	const userId = req.params.userId;
+	db.any('SELECT Users.user_fName, Users.user_lName, Skills.skill_name  FROM UserSkill JOIN Users ON UserSkill.user_id = Users.user_id JOIN Skills ON UserSkill.skill_id=Skills.skill_id Where UserSkill.user_id=$1',userId)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
+exports.getEventSkills = (req,res,next) => {
+	const eventId = req.params.eventId;
+	db.any('SELECT Skills.skill_name FROM EventSkill JOIN Skills ON EventSkill.skill_id=Skills.skill_id Where EventSkill.event_id=$1',eventId)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+exports.addGroup = (req,res,next) => {
+	const userId = req.params.userId;
+	const {name, area, description, details} = req.body;
+	db.one('INSERT INTO Groups (group_name,area_id,admin_id,description, contact_details)' +
+            'VALUES ($1, $2, $3, $4,$5) returning *', [
+                name,
+                Number(area),
+                userId,
+                description,
+								details
+            ])
+        .then((groups) => {
+            res.status(201)
+                .json({ groups });
+        })
+        .catch((err) => {
+            return next(err);
+        });
 };

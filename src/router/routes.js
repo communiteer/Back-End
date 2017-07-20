@@ -11,5 +11,11 @@ app.get('/events/area/:area', DB.getEventsByArea);
 app.get('/events/:id',DB.getEventsById);
 app.get('/users/:user_id/groups', DB.getUserGroups);
 app.get('/groups/:group_id/users', DB.getGroupUsers);
+app.get('/users/:userID/events',DB.getUserEvents);
+app.get('/events/:eventId/users', DB.getEventUsers);
+app.get('/users/:userId/skills', DB.getUserSkills);
+app.get('/events/:eventId/skills', DB.getEventSkills);
+
+app.post('/users/:userId/group', DB.addGroup);
 
 module.exports = app;
