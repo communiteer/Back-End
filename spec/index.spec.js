@@ -15,7 +15,8 @@ const {
 	getEventUsers,
 	getUserSkills,
 	getEventSkills,
-	addGroup
+	addGroup,
+	addEvent
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -256,8 +257,34 @@ describe('TEST ALL THE ROUTES', () => {
 				.end((err, res) => {
 					expect(res.status).to.equal(201);
 					expect(res.body).to.be.an('object');
-					expect(res.body.groups).to.be.an('object');
-					expect(res.body.groups.group_name).to.equal('goodName');
+					expect(res.body.group).to.be.an('object');
+					expect(res.body.group.group_name).to.equal('goodName');
+					done();
+				});
+		});
+	});
+
+	describe('POST-EVENT AND EVENT SKILLS', () => {
+		it('is a function', () => {
+			expect(addEvent).to.be.a('function');
+		});
+		it('should return a new event with skills', (done) => {
+			request(server)
+				.post('/event')
+				.send({
+						"name": "teens party",
+						"area": "1",
+						"date": "2017-5-8",
+						"time": "15:00",
+						"group": "1",
+						"description": "this is a great night for teen-agers",
+						"skills": ["1","2","4"]
+					})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.eventSkill).to.be.an('array');
+					expect(res.body.eventSkill[0].event_id).to.equal(5);
 					done();
 				});
 		});
