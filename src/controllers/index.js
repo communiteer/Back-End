@@ -152,3 +152,16 @@ exports.getUserSkills = (req,res,next) => {
 			return next(err);
 		});
 };
+
+exports.getEventSkills = (req,res,next) => {
+	const eventId = req.params.eventId;
+	db.any('SELECT Skills.skill_name FROM EventSkill JOIN Skills ON EventSkill.skill_id=Skills.skill_id Where EventSkill.event_id=$1',eventId)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};

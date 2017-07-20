@@ -32,3 +32,6 @@ VALUES (1,1), (2,1), (3,3), (4,5), (4,3), (2,5);
 
 INSERT INTO UserEvents (user_id, event_id)
 VALUES (1,1), (2,1), (3,4), (4,3), (1,2);
+
+INSERT INTO EventSkill (event_id, skill_id)
+VALUES (1,3), (1,5), (3,1), (3,2), (2,1);

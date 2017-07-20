@@ -58,3 +58,8 @@ CREATE TABLE UserEvents (
 	user_id INTEGER REFERENCES Users(user_id),
 	event_id INTEGER REFERENCES Events(event_id)
 );
+CREATE TABLE EventSkill (
+	id SERIAL PRIMARY KEY,
+	skill_id INTEGER REFERENCES Skills(skill_id),
+	event_id INTEGER REFERENCES Events(event_id)
+);

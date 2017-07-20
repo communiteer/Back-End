@@ -13,7 +13,8 @@ const {
 	getGroupUsers,
 	getUserEvents,
 	getEventUsers,
-	getUserSkills
+	getUserSkills,
+	getEventSkills
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -216,6 +217,23 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].user_fname).to.equal('Ben');
+					done();
+				});
+		});
+	});
+
+		describe('GET-ALL-SKILLS-FOR-ONE-EVENT', () => {
+		it('is a function', () => {
+			expect(getEventSkills).to.be.a('function');
+		});
+		it('should return all the skills needed for agiven event', (done) => {
+			request(server)
+				.get('/events/1/skills')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].skill_name).to.equal('Math Tutor');
 					done();
 				});
 		});
