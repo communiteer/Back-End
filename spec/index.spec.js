@@ -14,7 +14,8 @@ const {
 	getUserEvents,
 	getEventUsers,
 	getUserSkills,
-	getEventSkills
+	getEventSkills,
+	addGroup
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -222,7 +223,7 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 	});
 
-		describe('GET-ALL-SKILLS-FOR-ONE-EVENT', () => {
+	describe('GET-ALL-SKILLS-FOR-ONE-EVENT', () => {
 		it('is a function', () => {
 			expect(getEventSkills).to.be.a('function');
 		});
@@ -234,6 +235,29 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].skill_name).to.equal('Math Tutor');
+					done();
+				});
+		});
+	});
+
+	describe('POST-NEW_GROUP', () => {
+		it('is a function', () => {
+			expect(addGroup).to.be.a('function');
+		});
+		it('should return a new group', (done) => {
+			request(server)
+				.post('/users/1/group')
+				.send({
+					"name":"goodName",
+					"area":"1",
+					"description":"its a good group",
+					"details":"contact us on 145236789"
+					})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.groups).to.be.an('object');
+					expect(res.body.groups.group_name).to.equal('goodName');
 					done();
 				});
 		});

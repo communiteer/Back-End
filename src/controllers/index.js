@@ -165,3 +165,22 @@ exports.getEventSkills = (req,res,next) => {
 			return next(err);
 		});
 };
+exports.addGroup = (req,res,next) => {
+	const userId = req.params.userId;
+	const {name, area, description, details} = req.body;
+	db.one('INSERT INTO Groups (group_name,area_id,admin_id,description, contact_details)' +
+            'VALUES ($1, $2, $3, $4,$5) returning *', [
+                name,
+                Number(area),
+                userId,
+                description,
+								details
+            ])
+        .then((groups) => {
+            res.status(201)
+                .json({ groups });
+        })
+        .catch((err) => {
+            return next(err);
+        });
+};
