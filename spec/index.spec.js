@@ -12,6 +12,7 @@ const {
 	getUserGroups,
 	getGroupUsers,
 	getUserEvents,
+	getEventUsers,
 	getUserSkills
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
@@ -174,7 +175,7 @@ describe('TEST ALL THE ROUTES', () => {
 		it('is a function', () => {
 			expect(getUserEvents).to.be.a('function');
 		});
-		it('should return all the user information for agiven group id', (done) => {
+		it('should return all events information for agiven user', (done) => {
 			request(server)
 				.get('/users/1/events')
 				.end((err, res) => {
@@ -182,6 +183,22 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].event_name).to.equal('It is not too old to learn computer');
+					done();
+				});
+		});
+	});
+		describe('GET-ALL-USERS-FOR-ONE-EVENT', () => {
+		it('is a function', () => {
+			expect(getEventUsers).to.be.a('function');
+		});
+		it('should return all users for agiven event', (done) => {
+			request(server)
+				.get('/events/1/users')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_fname).to.equal('Ben');
 					done();
 				});
 		});

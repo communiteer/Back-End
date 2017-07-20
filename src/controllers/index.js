@@ -127,6 +127,19 @@ exports.getUserEvents = (req,res,next) => {
 		});
 };
 
+exports.getEventUsers = (req,res,next) => {
+	const eventId = req.params.eventId;
+	db.any('SELECT Users.user_fName, Users.user_lName, Users.user_id FROM UserEvents JOIN Users ON UserEvents.user_id = Users.user_id Where UserEvents.event_id=$1',eventId)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
 exports.getUserSkills = (req,res,next) => {
 	const userId = req.params.userId;
 	db.any('SELECT Users.user_fName, Users.user_lName, Skills.skill_name  FROM UserSkill JOIN Users ON UserSkill.user_id = Users.user_id JOIN Skills ON UserSkill.skill_id=Skills.skill_id Where UserSkill.user_id=$1',userId)
