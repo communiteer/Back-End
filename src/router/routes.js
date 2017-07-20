@@ -17,5 +17,7 @@ app.get('/users/:userId/skills', DB.getUserSkills);
 app.get('/events/:eventId/skills', DB.getEventSkills);
 
 app.post('/users/:userId/group', DB.addGroup);
+app.post('/event', DB.addEvent);
+app.post('/user', DB.addUser);
 
 module.exports = app;
