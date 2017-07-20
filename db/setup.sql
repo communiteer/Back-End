@@ -47,3 +47,14 @@ CREATE TABLE Events (
 	group_id INTEGER REFERENCES Groups(group_id),
 	event_description VARCHAR
 );
+
+CREATE TABLE UserSkill (
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES Users(user_id),
+	skill_id INTEGER REFERENCES Skills(skill_id)
+);
+CREATE TABLE UserEvents (
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES Users(user_id),
+	event_id INTEGER REFERENCES Events(event_id)
+);

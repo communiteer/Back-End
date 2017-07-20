@@ -10,7 +10,9 @@ const {
 	getEventsByArea,
 	getEventsById,
 	getUserGroups,
-	getGroupUsers
+	getGroupUsers,
+	getUserEvents,
+	getUserSkills
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -158,6 +160,40 @@ describe('TEST ALL THE ROUTES', () => {
 		it('should return all the user information for agiven group id', (done) => {
 			request(server)
 				.get('/groups/1/users')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_fname).to.equal('Ben');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-EVENTS-FOR-ONE-USER', () => {
+		it('is a function', () => {
+			expect(getUserEvents).to.be.a('function');
+		});
+		it('should return all the user information for agiven group id', (done) => {
+			request(server)
+				.get('/users/1/events')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].event_name).to.equal('It is not too old to learn computer');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-SKILLS-FOR-ONE-USER', () => {
+		it('is a function', () => {
+			expect(getUserSkills).to.be.a('function');
+		});
+		it('should return all the skills for agiven user', (done) => {
+			request(server)
+				.get('/users/1/skills')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');

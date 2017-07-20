@@ -114,9 +114,22 @@ exports.getGroupUsers = (req, res, next) => {
 		});
 };
 
-exports.getUserEvents = (reg,res,next) => {
-	const userID = reg.params.userID;
-	db.any('SELECT GroupUser.group_id, Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM GroupUser JOIN Events ON GroupUser.group_id=Events.group_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1',userID)
+exports.getUserEvents = (req,res,next) => {
+	const userID = req.params.userID;
+	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1',userID)
+	.then((data) => {
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
+exports.getUserSkills = (req,res,next) => {
+	const userId = req.params.userId;
+	db.any('SELECT Users.user_fName, Users.user_lName, Skills.skill_name  FROM UserSkill JOIN Users ON UserSkill.user_id = Users.user_id JOIN Skills ON UserSkill.skill_id=Skills.skill_id Where UserSkill.user_id=$1',userId)
 	.then((data) => {
 			res.status(200).json({
 				data
