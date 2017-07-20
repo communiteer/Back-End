@@ -16,7 +16,8 @@ const {
 	getUserSkills,
 	getEventSkills,
 	addGroup,
-	addEvent
+	addEvent,
+	addUser
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -285,6 +286,32 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.eventSkill).to.be.an('array');
 					expect(res.body.eventSkill[0].event_id).to.equal(5);
+					done();
+				});
+		});
+	});
+
+	describe('POST-USER AND USER SKILLS', () => {
+		it('is a function', () => {
+			expect(addUser).to.be.a('function');
+		});
+		it('should return a new event with skills', (done) => {
+			request(server)
+				.post('/user')
+				.send({
+					"fName": "Mauro",
+					"lName": "Gostoso",
+					"area": "1",
+					"phone": "074856478",
+					"email": "mauro@northcoders.com",
+					"picture": "google@google.com",
+					"skills": ["3","4","5"]
+				})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.userSkill).to.be.an('array');
+					expect(res.body.userSkill[0].user_id).to.equal(5);
 					done();
 				});
 		});

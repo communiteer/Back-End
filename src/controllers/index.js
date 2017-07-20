@@ -238,3 +238,36 @@ exports.addEvent = (req, res, next) => {
 		});
 	});
 };
+
+exports.addUser = (req, res, next) => {
+	const {fName, lName, area, phone, email, picture, skills} = req.body;
+	db.one('INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
+			'VALUES ($1, $2, $3, $4, $5, $6) returning *', [
+				fName,
+				lName,
+				Number(area),
+				phone,
+				email,
+				picture
+			])
+		.then((user) => {
+			db.task(t => {
+				const queries = skills.map((skill) => {
+					return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
+										user.user_id,
+										skill
+									]);
+				});
+						return t.batch(queries);
+			})
+			
+		.then((userSkill) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(201)
+				.json({	userSkill });
+		})
+		.catch((err) => {
+			return next(err);
+		});
+	});
+};
