@@ -207,7 +207,15 @@ exports.addGroup = (req, res, next) => {
 };
 
 exports.addEvent = (req, res, next) => {
-	const {name,area,date,time,group,description,skills} = req.body;
+	const {
+		name,
+		area,
+		date,
+		time,
+		group,
+		description,
+		skills
+	} = req.body;
 	db.one('INSERT INTO Events (event_name, area_id, event_date, event_time, group_id, event_description)' +
 			'VALUES ($1, $2, $3, $4, $5, $6) returning *', [
 				name,
@@ -219,28 +227,38 @@ exports.addEvent = (req, res, next) => {
 			])
 		.then((event) => {
 			db.task(t => {
-				const queries = skills.map((skill) => {
-					return t.one('INSERT INTO EventSkill (skill_id, event_id) VALUES ($1, $2) returning *', [
-										skill,
-										event.event_id
-									]);
+					const queries = skills.map((skill) => {
+						return t.one('INSERT INTO EventSkill (skill_id, event_id) VALUES ($1, $2) returning *', [
+							skill,
+							event.event_id
+						]);
+					});
+					return t.batch(queries);
+				})
+
+				.then((eventSkill) => {
+					res.setHeader('Content-Type', 'application/json');
+					res.status(201)
+						.json({
+							eventSkill
+						});
+				})
+				.catch((err) => {
+					return next(err);
 				});
-						return t.batch(queries);
-			})
-			
-		.then((eventSkill) => {
-			res.setHeader('Content-Type', 'application/json');
-			res.status(201)
-				.json({	eventSkill });
-		})
-		.catch((err) => {
-			return next(err);
 		});
-	});
 };
 
 exports.addUser = (req, res, next) => {
-	const {fName, lName, area, phone, email, picture, skills} = req.body;
+	const {
+		fName,
+		lName,
+		area,
+		phone,
+		email,
+		picture,
+		skills
+	} = req.body;
 	db.one('INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
 			'VALUES ($1, $2, $3, $4, $5, $6) returning *', [
 				fName,
@@ -252,24 +270,26 @@ exports.addUser = (req, res, next) => {
 			])
 		.then((user) => {
 			db.task(t => {
-				const queries = skills.map((skill) => {
-					return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
-										user.user_id,
-										skill
-									]);
+					const queries = skills.map((skill) => {
+						return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
+							user.user_id,
+							skill
+						]);
+					});
+					return t.batch(queries);
+				})
+
+				.then((userSkill) => {
+					res.setHeader('Content-Type', 'application/json');
+					res.status(201)
+						.json({
+							userSkill
+						});
+				})
+				.catch((err) => {
+					return next(err);
 				});
-						return t.batch(queries);
-			})
-			
-		.then((userSkill) => {
-			res.setHeader('Content-Type', 'application/json');
-			res.status(201)
-				.json({	userSkill });
-		})
-		.catch((err) => {
-			return next(err);
 		});
-	});
 };
 
 exports.delUser = (req, res, next) => {
@@ -278,17 +298,35 @@ exports.delUser = (req, res, next) => {
 		.then((groups) => {
 			if (groups.length > 0) {
 				res.status(201)
-					.json({	message: 'You are admin of Group(s) and You cant delete your account' });
-				}
-			else {
-				db.none('DELETE FROM Users WHERE user_id = $1', ID)			
+					.json({
+						message: 'You are admin of Group(s) and You cant delete your account'
+					});
+			} else {
+				db.none('DELETE FROM Users WHERE user_id = $1', ID)
 					.then(() => {
 						res.setHeader('Content-Type', 'application/json');
 						res.status(201)
-							.json({	message: 'user been deleted' });
+							.json({
+								message: 'user been deleted'
+							});
 					});
 			}
-			
+
+		})
+		.catch((err) => {
+			return next(err);
+		});
+};
+
+exports.delGroup = (req, res, next) => {
+	const ID = req.params.id;
+	db.none('DELETE FROM Groups WHERE group_id = $1', ID)
+		.then(() => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(201)
+				.json({
+					message: 'group been deleted'
+				});
 		})
 		.catch((err) => {
 			return next(err);

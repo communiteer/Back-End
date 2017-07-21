@@ -21,5 +21,6 @@ app.post('/event', DB.addEvent);
 app.post('/user', DB.addUser);
 
 app.delete('/user/:id', DB.delUser);
+app.delete('/group/:id', DB.delGroup);
 
 module.exports = app;
