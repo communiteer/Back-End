@@ -271,3 +271,26 @@ exports.addUser = (req, res, next) => {
 		});
 	});
 };
+
+exports.delUser = (req, res, next) => {
+	const ID = req.params.id;
+	db.any('SELECT * FROM Groups WHERE admin_id = $1', ID)
+		.then((groups) => {
+			if (groups.length > 0) {
+				res.status(201)
+					.json({	message: 'You are admin of Group(s) and You cant delete your account' });
+				}
+			else {
+				db.none('DELETE FROM Users WHERE user_id = $1', ID)			
+					.then(() => {
+						res.setHeader('Content-Type', 'application/json');
+						res.status(201)
+							.json({	message: 'user been deleted' });
+					});
+			}
+			
+		})
+		.catch((err) => {
+			return next(err);
+		});
+};

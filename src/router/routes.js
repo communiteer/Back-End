@@ -20,4 +20,6 @@ app.post('/users/:userId/group', DB.addGroup);
 app.post('/event', DB.addEvent);
 app.post('/user', DB.addUser);
 
+app.delete('/user/:id', DB.delUser);
+
 module.exports = app;

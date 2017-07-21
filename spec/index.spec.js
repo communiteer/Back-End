@@ -17,7 +17,7 @@ const {
 	getEventSkills,
 	addGroup,
 	addEvent,
-	addUser
+	addUser, delUser
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -312,6 +312,32 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.userSkill).to.be.an('array');
 					expect(res.body.userSkill[0].user_id).to.equal(5);
+					done();
+				});
+		});
+	});
+
+	describe('DELETE-USER', () => {
+		it('is a function', () => {
+			expect(delUser).to.be.a('function');
+		});
+		it('should not delete admin user', (done) => {
+			request(server)
+				.del('/user/4')
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.message).to.equal('You are admin of Group(s) and You cant delete your account');
+					done();
+				});
+		});
+		it('should delete a user if not admin user', (done) => {
+			request(server)
+				.delete('/user/2')
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.message).to.equal('user been deleted');
 					done();
 				});
 		});

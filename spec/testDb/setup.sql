@@ -31,7 +31,7 @@ CREATE TABLE Groups (
 
 CREATE TABLE GroupUser (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id),
+	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
 	group_id INTEGER REFERENCES Groups(group_id)
 );
 
@@ -52,12 +52,12 @@ CREATE TABLE Events (
 
 CREATE TABLE UserSkill (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id),
+	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
 	skill_id INTEGER REFERENCES Skills(skill_id)
 );
 CREATE TABLE UserEvents (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id),
+	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
 	event_id INTEGER REFERENCES Events(event_id)
 );
 CREATE TABLE EventSkill (
