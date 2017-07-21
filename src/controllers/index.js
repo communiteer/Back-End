@@ -332,3 +332,18 @@ exports.delGroup = (req, res, next) => {
 			return next(err);
 		});
 };
+
+exports.delEvent = (req, res, next) => {
+	const ID = req.params.id;
+	db.none('DELETE FROM Events WHERE event_id = $1', ID)
+		.then(() => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(201)
+				.json({
+					message: 'event been deleted'
+				});
+		})
+		.catch((err) => {
+			return next(err);
+		});
+};

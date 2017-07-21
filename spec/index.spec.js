@@ -19,7 +19,8 @@ const {
 	addEvent,
 	addUser, 
 	delUser,
-	delGroup
+	delGroup,
+	delEvent
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -356,6 +357,22 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(201);
 					expect(res.body).to.be.an('object');
 					expect(res.body.message).to.equal('group been deleted');
+					done();
+				});
+		});
+	});
+
+	describe('DELETE-EVENT', () => {
+		it('is a function', () => {
+			expect(delEvent).to.be.a('function');
+		});
+		it('should delete a Event', (done) => {
+			request(server)
+				.delete('/event/1')
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.message).to.equal('event been deleted');
 					done();
 				});
 		});
