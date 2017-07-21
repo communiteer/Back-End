@@ -347,3 +347,17 @@ exports.delEvent = (req, res, next) => {
 			return next(err);
 		});
 };
+
+exports.updateUser = (req,res,next) => {
+	const ID = req.params.userId;
+	const {colName,colValue} = req.body;
+	db.one('UPDATE Users SET $1^ = $2 WHERE user_id = $3 returning *',[colName, colValue, ID])
+	.then((user) => {
+		res.setHeader('Content-Type', 'application/json');
+			res.status(201)
+				.json({user});
+	})
+	.catch(err => {
+		return next(err);
+	});
+};

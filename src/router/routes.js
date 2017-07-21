@@ -24,4 +24,6 @@ app.delete('/user/:id', DB.delUser);
 app.delete('/group/:id', DB.delGroup);
 app.delete('/event/:id', DB.delEvent);
 
+app.put('/users/:userId',DB.updateUser);
+
 module.exports = app;

@@ -20,7 +20,8 @@ const {
 	addUser, 
 	delUser,
 	delGroup,
-	delEvent
+	delEvent,
+	updateUser
 } = require(path.resolve(__dirname, '..', 'src', 'controllers'));
 const server = require('../server');
 
@@ -373,6 +374,26 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(201);
 					expect(res.body).to.be.an('object');
 					expect(res.body.message).to.equal('event been deleted');
+					done();
+				});
+		});
+	});
+
+	describe('UPDATE USER', () => {
+		it('is a function', () => {
+			expect(delEvent).to.be.a('function');
+		});
+		it('should update a user info', (done) => {
+			request(server)
+				.put('/users/1')
+				.send({
+					"colName":"Phone",
+					"colValue":"333333333"
+				})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.user.phone).to.equal('333333333');
 					done();
 				});
 		});
