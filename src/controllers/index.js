@@ -17,6 +17,20 @@ exports.getAreas = (req, res, next) => {
 		});
 };
 
+exports.getAllUsers = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	db.any('SELECT * FROM Users')
+		.then((data) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200).json({
+				data
+			});
+		})
+		.catch((err) => {
+			return next(err);
+		});
+};
+
 exports.getSkills = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	db.any('SELECT * FROM skills')
@@ -49,6 +63,21 @@ exports.getGroupById = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const ID = req.params.id;
 	db.any('SELECT group_id, group_name, description, contact_details, Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM Groups JOIN Users ON Groups.admin_id = Users.user_id WHERE Groups.group_id = $1', ID)
+		.then((data) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+/********** */
+exports.getGroupEvents =  (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const ID = req.params.id;
+	db.any('SELECT event_id, event_name, area_id, event_time, event_date, event_description FROM Events WHERE group_id= $1', ID)
 		.then((data) => {
 			res.setHeader('Content-Type', 'application/json');
 			res.status(200).json({
