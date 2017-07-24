@@ -23,8 +23,8 @@ INSERT INTO Groups (group_name,area_id,admin_id,description ,contact_details)
 	 ('Cats',3,4,'every thing about take care of cats', '789456123'),
 	('Coders',4,4,'Learn code with us', '71116123');
 
-INSERT INTO GroupUser (user_id,group_id) 
-	VALUES (1,1), (2,1), (3,1), (1,2), (2,2), (2,3), (3,3), (1,4), (4,4);
+INSERT INTO GroupUser (user_id,group_id,userPoints) 
+	VALUES (1,1,100), (2,1,200), (3,1,200), (1,2,150), (2,2,250), (2,3,80), (3,3,90), (1,4,250), (4,4,300);
 
 INSERT INTO Skills (skill_name)
 VALUES ('chef'), ('cleaner'), ('Math Tutor'), ('English Tutor'), ('Tech Tutor');

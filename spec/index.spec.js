@@ -87,8 +87,8 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].group_id).to.equal(1);
-					expect(res.body.data[0].admin_fname).to.equal('Kamran');
-					expect(res.body.data[0].group_name).to.equal('A');
+					expect(res.body.data[0].admin_fname).to.equal('Ben');
+					expect(res.body.data[0].group_name).to.equal('Champions');
 					done();
 				});
 		});
@@ -100,7 +100,7 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return all the groups for given area', (done) => {
 			request(server)
-				.get('/groups/area/1')
+				.get('/areas/1/groups')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
@@ -117,12 +117,12 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return all the events for given area', (done) => {
 			request(server)
-				.get('/events/area/1')
+				.get('/areas/1/events')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].area_name).to.equal('south Manchester');
+					expect(res.body.data[0].area_name).to.equal('Stretford');
 					done();
 				});
 		});
@@ -156,7 +156,8 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].admin_fname).to.equal('Kamran');
+					console.log(res.body)
+					expect(res.body.data[0].admin_fname).to.equal('Ben');
 					done();
 				});
 		});
