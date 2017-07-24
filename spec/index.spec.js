@@ -3,7 +3,9 @@ const expect = require('chai').expect;
 const path = require('path');
 const {
 	getUserById,
+	getAllUsers,
 	getGroupById,
+	getGroupEvents,
 	getAreas,
 	getSkills,
 	getGroupsByArea,
@@ -15,6 +17,7 @@ const {
 	getEventUsers,
 	getUserSkills,
 	getEventSkills,
+	getSkillUsers,
 	addGroup,
 	addEvent,
 	addUser, 
@@ -43,17 +46,35 @@ describe('TEST ALL THE ROUTES', () => {
 				});
 		});
 	});
-	describe('Get Skills', () => {
+	describe('Get All Users', () => {
+		it('is a function', () => {
+			expect(getAllUsers).to.be.a('function');
+		});
+		it('should return all users', (done) => {
+			request(server)
+				.get('/users')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_id).to.equal(1);
+					done();
+				});
+		});
+	});
+
+	describe('Get All Areas', () => {
 		it('is a function', () => {
 			expect(getAreas).to.be.a('function');
 		});
 		it('should return all the available skills', (done) => {
 			request(server)
-				.get('/skills')
+				.get('/Areas')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].area_id).to.equal(1);
 					done();
 				});
 		});
@@ -87,8 +108,25 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].group_id).to.equal(1);
-					expect(res.body.data[0].admin_fname).to.equal('Kamran');
-					expect(res.body.data[0].group_name).to.equal('A');
+					expect(res.body.data[0].admin_fname).to.equal('Ben');
+					expect(res.body.data[0].group_name).to.equal('Champions');
+					done();
+				});
+		});
+	});
+
+	describe('GET-EVENTS-BY-GROUP-ID', () => {
+		it('is a function', () => {
+			expect(getGroupEvents).to.be.a('function');
+		});
+		it('should return the events information using group id', (done) => {
+			request(server)
+				.get('/groups/2/events')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].event_id).to.equal(2);
 					done();
 				});
 		});
@@ -100,7 +138,7 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return all the groups for given area', (done) => {
 			request(server)
-				.get('/groups/area/1')
+				.get('/areas/1/groups')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
@@ -117,12 +155,12 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 		it('should return all the events for given area', (done) => {
 			request(server)
-				.get('/events/area/1')
+				.get('/areas/1/events')
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].area_name).to.equal('south Manchester');
+					expect(res.body.data[0].area_name).to.equal('Stretford');
 					done();
 				});
 		});
@@ -156,7 +194,7 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].admin_fname).to.equal('Kamran');
+					expect(res.body.data[0].admin_fname).to.equal('Ben');
 					done();
 				});
 		});
@@ -241,6 +279,23 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].skill_name).to.equal('Math Tutor');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-USERS-HAVE-SAME-SKILL', () => {
+		it('is a function', () => {
+			expect(getSkillUsers).to.be.a('function');
+		});
+		it('should return all the users who have the same skill', (done) => {
+			request(server)
+				.get('/areas/1/skills/1')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_id).to.equal(1);
 					done();
 				});
 		});
@@ -381,7 +436,7 @@ describe('TEST ALL THE ROUTES', () => {
 
 	describe('UPDATE USER', () => {
 		it('is a function', () => {
-			expect(delEvent).to.be.a('function');
+			expect(updateUser).to.be.a('function');
 		});
 		it('should update a user info', (done) => {
 			request(server)

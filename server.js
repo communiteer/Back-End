@@ -2,7 +2,7 @@
 const path = require('path');
 const app = require('express')();
 const config = require('./config');
-const PORT = config.port;
+const PORT = process.env.PORT || config.port;
 const router = require(path.resolve(__dirname, 'src', 'router', 'routes'));
 const jsonParser = require('body-parser').json;
 

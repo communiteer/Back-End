@@ -24,15 +24,14 @@ CREATE TABLE Groups (
 	area_id INTEGER REFERENCES Areas(area_id),
 	admin_id INTEGER REFERENCES Users(user_id),
 	description VARCHAR,
-	contact_details VARCHAR,
-	league INTEGER 
-		CHECK (league BETWEEN 1 AND 5)
+	contact_details VARCHAR
 );
 
 CREATE TABLE GroupUser (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
-	group_id INTEGER REFERENCES Groups(group_id) ON DELETE CASCADE
+	group_id INTEGER REFERENCES Groups(group_id) ON DELETE CASCADE,
+	userPoints INTEGER
 );
 
 CREATE TABLE Skills (
