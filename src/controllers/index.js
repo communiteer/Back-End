@@ -73,7 +73,7 @@ exports.getGroupById = (req, res, next) => {
 			return next(err);
 		});
 };
-/********** */
+
 exports.getGroupEvents =  (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const ID = req.params.id;
@@ -222,6 +222,24 @@ exports.getEventSkills = (req, res, next) => {
 			return next(err);
 		});
 };
+
+exports.getSkillUsers = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const areaId = req.params.area_id;
+	const skillId = req.params.skill_id;
+	db.any('SELECT Users.user_id, Users.user_fName, Users.user_lName, Users.Phone, Users.Email, Users.ProfilePicture FROM UserSkill JOIN Users ON UserSkill.user_id = Users.user_id WHERE UserSkill.skill_id = $2 AND Users.area = $1',
+	[areaId, skillId])
+		.then((data) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
 exports.addGroup = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const userId = req.params.id;

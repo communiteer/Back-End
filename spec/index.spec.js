@@ -17,6 +17,7 @@ const {
 	getEventUsers,
 	getUserSkills,
 	getEventSkills,
+	getSkillUsers,
 	addGroup,
 	addEvent,
 	addUser, 
@@ -278,6 +279,23 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
 					expect(res.body.data[0].skill_name).to.equal('Math Tutor');
+					done();
+				});
+		});
+	});
+
+	describe('GET-ALL-USERS-HAVE-SAME-SKILL', () => {
+		it('is a function', () => {
+			expect(getSkillUsers).to.be.a('function');
+		});
+		it('should return all the users who have the same skill', (done) => {
+			request(server)
+				.get('/areas/1/skills/1')
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('array');
+					expect(res.body.data[0].user_id).to.equal(1);
 					done();
 				});
 		});

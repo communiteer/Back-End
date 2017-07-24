@@ -12,7 +12,7 @@ INSERT INTO Areas (area_name)
 
 INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)
 	VALUES ('Ben','Whitfield', 1, '07425199999', 'ben@hotmail.com', 'http://www.readersdigest.ca/wp-content/uploads/2011/01/4-ways-cheer-up-depressed-cat.jpg'),
-('Wasan','Salih', 2, '07425199999', 'wasan@hotmail.com', 'http://www.regionunaujienos.lt/wp-content/uploads/2017/05/60ca55.jpg'),
+('Wasan','Salih', 1, '07425199999', 'wasan@hotmail.com', 'http://www.regionunaujienos.lt/wp-content/uploads/2017/05/60ca55.jpg'),
 ('Leo','Duffy', 1, '07425199999', 'Leo@hotmail.com', 'http://www.equineworld.co.uk/media/k2/items/cache/665e3353c5a0a1298b58f0408e39e998_L.jpg'),
 ('Kamran','Mujtaba', 3, '07425199999', 'Kameron@hotmail.com', 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg');
 
@@ -36,7 +36,7 @@ VALUES ('It is not too old to learn computer',2,'2017-1-30','10:30',3,'your age 
 ('Kids Party',3,'2015-1-30','10:30',2,'Have a fun with us');
 
 INSERT INTO UserSkill (user_id, skill_id)
-VALUES (1,1), (2,1), (3,3), (4,5), (4,3), (2,5);
+VALUES (1,1), (2,1), (3,1), (4,5), (4,3), (2,5);
 
 INSERT INTO UserEvents (user_id, event_id)
 VALUES (1,1), (2,1), (3,4), (4,3), (1,2);
