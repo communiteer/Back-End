@@ -166,7 +166,7 @@ exports.getGroupUsers = (req, res, next) => {
 exports.getUserEvents = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const userID = req.params.id;
-	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1', userID)
+	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description, Groups.group_name FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id JOIN Groups ON Groups.group_id = Events.group_id WHERE user_id =$1', userID)
 		.then((data) => {
 			res.status(200).json({data});
 		})
