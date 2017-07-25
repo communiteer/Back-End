@@ -237,6 +237,21 @@ exports.getSkillUsers = (req, res, next) => {
 		});
 };
 
+exports.getGroupsByAdmin = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const ID = req.params.id;
+	db.any('SELECT * FROM Groups WHERE Groups.admin_id = $1',ID)
+		.then((data) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
 exports.addGroup = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const userId = req.params.id;

@@ -18,6 +18,7 @@ const {
 	getUserSkills,
 	getEventSkills,
 	getSkillUsers,
+	getGroupsByAdmin,
 	addGroup,
 	addEvent,
 	addUser, 
@@ -194,7 +195,7 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].admin_fname).to.equal('Ben');
+					expect(res.body.data[0].admin_fname).to.equal('Kamran');
 					done();
 				});
 		});
@@ -299,6 +300,23 @@ describe('TEST ALL THE ROUTES', () => {
 					done();
 				});
 		});
+	});
+
+	describe('RETURN-ALL-GROUPS-THIS-USER-IS-ADMIN-OF', () => {
+		it('is a function', () => {
+			expect(getGroupsByAdmin).to.be.a('function');
+		});
+			it('should return all the groups that this user is admin of', (done) => {
+				request(server)
+					.get('/users/4/admin')
+					.end((err, res) => {
+						expect(res.status).to.equal(200);
+						expect(res.body).to.be.an('object');
+						expect(res.body.data).to.be.an('array');
+						expect(res.body.data[0].group_name).to.equal('Cats');
+						done();
+					});
+			});
 	});
 
 	describe('POST-NEW_GROUP', () => {
