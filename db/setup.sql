@@ -8,7 +8,7 @@ CREATE TABLE Areas (
 );
 
 CREATE TABLE Users (
-	user_id SERIAL PRIMARY KEY,
+	user_id VARCHAR PRIMARY KEY,
 	user_fName VARCHAR,
 	user_lName VARCHAR,
 	area INTEGER REFERENCES Areas(area_id),
@@ -22,14 +22,14 @@ CREATE TABLE Groups (
 	group_id SERIAL PRIMARY KEY,
 	group_name VARCHAR,
 	area_id INTEGER REFERENCES Areas(area_id),
-	admin_id INTEGER REFERENCES Users(user_id),
+	admin_id VARCHAR REFERENCES Users(user_id),
 	description VARCHAR,
 	contact_details VARCHAR
 );
 
 CREATE TABLE GroupUser (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
+	user_id VARCHAR REFERENCES Users(user_id) ON DELETE CASCADE,
 	group_id INTEGER REFERENCES Groups(group_id) ON DELETE CASCADE,
 	userPoints INTEGER
 );
@@ -51,12 +51,12 @@ CREATE TABLE Events (
 
 CREATE TABLE UserSkill (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
+	user_id VARCHAR REFERENCES Users(user_id) ON DELETE CASCADE,
 	skill_id INTEGER REFERENCES Skills(skill_id) ON DELETE CASCADE
 );
 CREATE TABLE UserEvents (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES Users(user_id) ON DELETE CASCADE,
+	user_id VARCHAR REFERENCES Users(user_id) ON DELETE CASCADE,
 	event_id INTEGER REFERENCES Events(event_id) ON DELETE CASCADE
 );
 CREATE TABLE EventSkill (
