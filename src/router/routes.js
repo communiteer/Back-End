@@ -18,10 +18,7 @@ app.get('/events/:id/users', DB.getEventUsers);
 app.get('/users/:id/skills', DB.getUserSkills);
 app.get('/events/:id/skills', DB.getEventSkills);
 app.get('/areas/:area_id/skills/:skill_id',DB.getSkillUsers);
-<<<<<<< HEAD
-=======
 app.get('/users/:id/admin',DB.getGroupsByAdmin);
->>>>>>> 2ea1c522ac9fc4516c827348d99ef13935c0674e
 
 app.post('/users/:id/group', DB.addGroup);
 app.post('/event', DB.addEvent);
