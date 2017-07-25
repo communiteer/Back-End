@@ -168,19 +168,7 @@ exports.getUserEvents = (req, res, next) => {
 	const userID = req.params.id;
 	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1', userID)
 		.then((data) => {
-			console.log(data);
-			const temp = data.reduce((acc, ele) => {				
-				acc[ele.event_date] = {
-					event_id: ele.event_id,
-					event_name : ele.event_name,
-					area_name : ele.area_name,
-					event_date : ele.event_date,
-					event_time : ele.event_time,
-					event_descripton : ele.event_descripton
-				};
-				return acc;
-			}, {});
-			res.status(200).json(temp);
+			res.status(200).json({data});
 		})
 		.catch(err => {
 			return next(err);

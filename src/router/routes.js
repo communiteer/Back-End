@@ -18,7 +18,6 @@ app.get('/events/:id/users', DB.getEventUsers);
 app.get('/users/:id/skills', DB.getUserSkills);
 app.get('/events/:id/skills', DB.getEventSkills);
 app.get('/areas/:area_id/skills/:skill_id',DB.getSkillUsers);
-// app.get('/areas/:area_id/sss',DB.getSkillUsers);
 
 app.post('/users/:id/group', DB.addGroup);
 app.post('/event', DB.addEvent);
