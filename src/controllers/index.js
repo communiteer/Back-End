@@ -328,6 +328,7 @@ exports.addEvent = (req, res, next) => {
 exports.addUser = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const {
+		id,
 		fName,
 		lName,
 		area,
@@ -336,8 +337,10 @@ exports.addUser = (req, res, next) => {
 		picture,
 		skills
 	} = req.body;
-	db.one('INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
-			'VALUES ($1, $2, $3, $4, $5, $6) returning *', [
+	console.log(req.body)
+	db.one('INSERT INTO Users (user_id, user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
+			'VALUES ($1, $2, $3, $4, $5, $6,$7) returning *', [
+				Number(id),
 				fName,
 				lName,
 				Number(area),
@@ -346,6 +349,7 @@ exports.addUser = (req, res, next) => {
 				picture
 			])
 		.then((user) => {
+			console.log(user)
 			db.task(t => {
 					const queries = skills.map((skill) => {
 						return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
@@ -368,6 +372,25 @@ exports.addUser = (req, res, next) => {
 				});
 		});
 };
+
+exports.addUserToGroup = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const userID = req.params.user_id;
+	const groupID = req.params.group_id;
+	db.one('INSERT INTO GroupUser (user_id, group_id)' +
+			'VALUES ($1, $2) returning *', [
+				userID,
+				groupID
+			])
+			.then((data) => {
+					res.setHeader('Content-Type', 'application/json');
+					res.status(201)
+						.json({data});
+				})
+				.catch((err) => {
+					return next(err);
+				});
+		};
 
 exports.delUser = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
