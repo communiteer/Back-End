@@ -24,6 +24,7 @@ app.post('/users/:id/group', DB.addGroup);
 app.post('/event', DB.addEvent);
 app.post('/user', DB.addUser);
 app.post('/users/:user_id/groups/:group_id',DB.addUserToGroup);
+app.post('/users/:user_id/events/:event_id',DB.addUserToEvent);
 
 app.delete('/user/:id', DB.delUser);
 app.delete('/group/:id', DB.delGroup);

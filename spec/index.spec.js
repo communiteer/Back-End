@@ -22,6 +22,8 @@ const {
 	addGroup,
 	addEvent,
 	addUser, 
+	addUserToGroup,
+	addUserToEvent,
 	delUser,
 	delGroup,
 	delEvent,
@@ -376,6 +378,7 @@ describe('TEST ALL THE ROUTES', () => {
 			request(server)
 				.post('/user')
 				.send({
+					"id":"150",
 					"fName": "Mauro",
 					"lName": "Gostoso",
 					"area": "1",
@@ -388,7 +391,41 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(201);
 					expect(res.body).to.be.an('object');
 					expect(res.body.userSkill).to.be.an('array');
-					expect(res.body.userSkill[0].user_id).to.equal(5);
+					expect(res.body.userSkill[0].user_id).to.equal(150);
+					done();
+				});
+		});
+	});
+describe('POST-USER-TO-GROUP', () => {
+		it('is a function', () => {
+			expect(addUserToGroup).to.be.a('function');
+		});
+		it('should add a user to a group', (done) => {
+			request(server)
+				.post('/users/1/groups/1')
+				.send({})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('object');
+					expect(res.body.data.user_id).to.equal(1);
+					done();
+				});
+		});
+	});
+	describe('POST-USER-TO-EVENT', () => {
+		it('is a function', () => {
+			expect(addUserToEvent).to.be.a('function');
+		});
+		it('should add a user to an event', (done) => {
+			request(server)
+				.post('/users/1/events/1')
+				.send({})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('object');
+					expect(res.body.data.user_id).to.equal(1);
 					done();
 				});
 		});

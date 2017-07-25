@@ -337,7 +337,6 @@ exports.addUser = (req, res, next) => {
 		picture,
 		skills
 	} = req.body;
-	console.log(req.body)
 	db.one('INSERT INTO Users (user_id, user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
 			'VALUES ($1, $2, $3, $4, $5, $6,$7) returning *', [
 				Number(id),
@@ -391,6 +390,25 @@ exports.addUserToGroup = (req, res, next) => {
 					return next(err);
 				});
 		};
+
+exports.addUserToEvent = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const userID = req.params.user_id;
+	const eventID = req.params.event_id;
+	db.one('INSERT INTO UserEvents (user_id, event_id)' +
+		'VALUES ($1, $2) returning *', [
+			userID,
+			eventID
+		])
+		.then((data) => {
+				res.setHeader('Content-Type', 'application/json');
+				res.status(201)
+					.json({data});
+			})
+			.catch((err) => {
+				return next(err);
+			});
+};
 
 exports.delUser = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
