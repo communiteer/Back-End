@@ -18,9 +18,12 @@ const {
 	getUserSkills,
 	getEventSkills,
 	getSkillUsers,
+	getGroupsByAdmin,
 	addGroup,
 	addEvent,
 	addUser, 
+	addUserToGroup,
+	addUserToEvent,
 	delUser,
 	delGroup,
 	delEvent,
@@ -194,7 +197,7 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body.data).to.be.an('array');
-					expect(res.body.data[0].admin_fname).to.equal('Ben');
+					expect(res.body.data[0].admin_fname).to.equal('Kamran');
 					done();
 				});
 		});
@@ -301,6 +304,23 @@ describe('TEST ALL THE ROUTES', () => {
 		});
 	});
 
+	describe('RETURN-ALL-GROUPS-THIS-USER-IS-ADMIN-OF', () => {
+		it('is a function', () => {
+			expect(getGroupsByAdmin).to.be.a('function');
+		});
+			it('should return all the groups that this user is admin of', (done) => {
+				request(server)
+					.get('/users/4/admin')
+					.end((err, res) => {
+						expect(res.status).to.equal(200);
+						expect(res.body).to.be.an('object');
+						expect(res.body.data).to.be.an('array');
+						expect(res.body.data[0].group_name).to.equal('Cats');
+						done();
+					});
+			});
+	});
+
 	describe('POST-NEW_GROUP', () => {
 		it('is a function', () => {
 			expect(addGroup).to.be.a('function');
@@ -358,6 +378,7 @@ describe('TEST ALL THE ROUTES', () => {
 			request(server)
 				.post('/user')
 				.send({
+					"id":"150",
 					"fName": "Mauro",
 					"lName": "Gostoso",
 					"area": "1",
@@ -370,7 +391,41 @@ describe('TEST ALL THE ROUTES', () => {
 					expect(res.status).to.equal(201);
 					expect(res.body).to.be.an('object');
 					expect(res.body.userSkill).to.be.an('array');
-					expect(res.body.userSkill[0].user_id).to.equal(5);
+					expect(res.body.userSkill[0].user_id).to.equal(150);
+					done();
+				});
+		});
+	});
+describe('POST-USER-TO-GROUP', () => {
+		it('is a function', () => {
+			expect(addUserToGroup).to.be.a('function');
+		});
+		it('should add a user to a group', (done) => {
+			request(server)
+				.post('/users/1/groups/1')
+				.send({})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('object');
+					expect(res.body.data.user_id).to.equal(1);
+					done();
+				});
+		});
+	});
+	describe('POST-USER-TO-EVENT', () => {
+		it('is a function', () => {
+			expect(addUserToEvent).to.be.a('function');
+		});
+		it('should add a user to an event', (done) => {
+			request(server)
+				.post('/users/1/events/1')
+				.send({})
+				.end((err, res) => {
+					expect(res.status).to.equal(201);
+					expect(res.body).to.be.an('object');
+					expect(res.body.data).to.be.an('object');
+					expect(res.body.data.user_id).to.equal(1);
 					done();
 				});
 		});

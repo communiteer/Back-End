@@ -18,11 +18,13 @@ app.get('/events/:id/users', DB.getEventUsers);
 app.get('/users/:id/skills', DB.getUserSkills);
 app.get('/events/:id/skills', DB.getEventSkills);
 app.get('/areas/:area_id/skills/:skill_id',DB.getSkillUsers);
-// app.get('/areas/:area_id/sss',DB.getSkillUsers);
+app.get('/users/:id/admin',DB.getGroupsByAdmin);
 
 app.post('/users/:id/group', DB.addGroup);
 app.post('/event', DB.addEvent);
 app.post('/user', DB.addUser);
+app.post('/users/:user_id/groups/:group_id',DB.addUserToGroup);
+app.post('/users/:user_id/events/:event_id',DB.addUserToEvent);
 
 app.delete('/user/:id', DB.delUser);
 app.delete('/group/:id', DB.delGroup);

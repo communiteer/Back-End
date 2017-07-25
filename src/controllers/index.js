@@ -168,19 +168,7 @@ exports.getUserEvents = (req, res, next) => {
 	const userID = req.params.id;
 	db.any('SELECT Events.event_id, Events.event_name, Areas.area_name, Events.event_date, Events.event_time, Events.event_description FROM UserEvents JOIN Events ON UserEvents.event_id=Events.event_id JOIN Areas ON Events.area_id=Areas.area_id WHERE user_id =$1', userID)
 		.then((data) => {
-			console.log(data);
-			const temp = data.reduce((acc, ele) => {				
-				acc[ele.event_date] = {
-					event_id: ele.event_id,
-					event_name : ele.event_name,
-					area_name : ele.area_name,
-					event_date : ele.event_date,
-					event_time : ele.event_time,
-					event_descripton : ele.event_descripton
-				};
-				return acc;
-			}, {});
-			res.status(200).json(temp);
+			res.status(200).json({data});
 		})
 		.catch(err => {
 			return next(err);
@@ -238,6 +226,21 @@ exports.getSkillUsers = (req, res, next) => {
 	const skillId = req.params.skill_id;
 	db.any('SELECT Users.user_id, Users.user_fName, Users.user_lName, Users.Phone, Users.Email, Users.ProfilePicture FROM UserSkill JOIN Users ON UserSkill.user_id = Users.user_id WHERE UserSkill.skill_id = $2 AND Users.area = $1',
 	[areaId, skillId])
+		.then((data) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200).json({
+				data
+			});
+		})
+		.catch(err => {
+			return next(err);
+		});
+};
+
+exports.getGroupsByAdmin = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const ID = req.params.id;
+	db.any('SELECT * FROM Groups WHERE Groups.admin_id = $1',ID)
 		.then((data) => {
 			res.setHeader('Content-Type', 'application/json');
 			res.status(200).json({
@@ -325,6 +328,7 @@ exports.addEvent = (req, res, next) => {
 exports.addUser = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const {
+		id,
 		fName,
 		lName,
 		area,
@@ -333,8 +337,9 @@ exports.addUser = (req, res, next) => {
 		picture,
 		skills
 	} = req.body;
-	db.one('INSERT INTO Users (user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
-			'VALUES ($1, $2, $3, $4, $5, $6) returning *', [
+	db.one('INSERT INTO Users (user_id, user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
+			'VALUES ($1, $2, $3, $4, $5, $6,$7) returning *', [
+				Number(id),
 				fName,
 				lName,
 				Number(area),
@@ -343,6 +348,7 @@ exports.addUser = (req, res, next) => {
 				picture
 			])
 		.then((user) => {
+			console.log(user)
 			db.task(t => {
 					const queries = skills.map((skill) => {
 						return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
@@ -364,6 +370,44 @@ exports.addUser = (req, res, next) => {
 					return next(err);
 				});
 		});
+};
+
+exports.addUserToGroup = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const userID = req.params.user_id;
+	const groupID = req.params.group_id;
+	db.one('INSERT INTO GroupUser (user_id, group_id)' +
+			'VALUES ($1, $2) returning *', [
+				userID,
+				groupID
+			])
+			.then((data) => {
+					res.setHeader('Content-Type', 'application/json');
+					res.status(201)
+						.json({data});
+				})
+				.catch((err) => {
+					return next(err);
+				});
+		};
+
+exports.addUserToEvent = (req, res, next) => {
+	pgp.pg.defaults.ssl = true;
+	const userID = req.params.user_id;
+	const eventID = req.params.event_id;
+	db.one('INSERT INTO UserEvents (user_id, event_id)' +
+		'VALUES ($1, $2) returning *', [
+			userID,
+			eventID
+		])
+		.then((data) => {
+				res.setHeader('Content-Type', 'application/json');
+				res.status(201)
+					.json({data});
+			})
+			.catch((err) => {
+				return next(err);
+			});
 };
 
 exports.delUser = (req, res, next) => {
