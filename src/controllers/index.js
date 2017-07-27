@@ -240,7 +240,7 @@ exports.getSkillUsers = (req, res, next) => {
 exports.getGroupsByAdmin = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const ID = req.params.id;
-	db.any('SELECT * FROM Groups WHERE Groups.admin_id = $1',ID)
+	db.any('SELECT *, Users.user_fName, Users.user_lName FROM Groups JOIN Users ON Group.admin_id = Users.user_id WHERE Groups.admin_id = $1',ID)
 		.then((data) => {
 			res.setHeader('Content-Type', 'application/json');
 			res.status(200).json({
