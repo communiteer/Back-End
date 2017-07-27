@@ -339,7 +339,7 @@ exports.addUser = (req, res, next) => {
 	} = req.body;
 	db.one('INSERT INTO Users (user_id, user_fName, user_lName, area, Phone, Email, ProfilePicture)' +
 			'VALUES ($1, $2, $3, $4, $5, $6,$7) returning *', [
-				Number(id),
+				id,
 				fName,
 				lName,
 				Number(area),
@@ -348,7 +348,6 @@ exports.addUser = (req, res, next) => {
 				picture
 			])
 		.then((user) => {
-			console.log(user)
 			db.task(t => {
 					const queries = skills.map((skill) => {
 						return t.one('INSERT INTO  UserSkill (user_id, skill_id) VALUES ($1, $2) returning *', [
@@ -365,11 +364,11 @@ exports.addUser = (req, res, next) => {
 						.json({
 							userSkill
 						});
-				})
+				});
+		})
 				.catch((err) => {
 					return next(err);
 				});
-		});
 };
 
 exports.addUserToGroup = (req, res, next) => {
