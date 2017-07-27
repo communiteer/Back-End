@@ -135,7 +135,7 @@ exports.getEventsById = (req, res, next) => {
 exports.getUserGroups = (req, res, next) => {
 	pgp.pg.defaults.ssl = true;
 	const userID = req.params.id;
-	db.any('SELECT GroupUser.userPoints, Groups.group_id, Groups.group_name, Areas.area_name, Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM GroupUser JOIN Groups ON GroupUser.group_id = Groups.group_id JOIN Areas ON Groups.area_id = Areas.area_id JOIN Users ON Groups.admin_id = Users.user_id WHERE GroupUser.user_id = $1 ORDER BY GroupUser.userPoints DESC', userID)
+	db.any('SELECT GroupUser.userPoints, Groups.group_id, Groups.group_name, Groups.description,Groups.contact_details, Areas.area_name, Users.user_fName as admin_fname, Users.user_lName as admin_lname FROM GroupUser JOIN Groups ON GroupUser.group_id = Groups.group_id JOIN Areas ON Groups.area_id = Areas.area_id JOIN Users ON Groups.admin_id = Users.user_id WHERE GroupUser.user_id = $1 ORDER BY GroupUser.userPoints DESC', userID)
 		.then((data) => {
 			res.setHeader('Content-Type', 'application/json');
 			res.status(200).json({
