@@ -71,6 +71,8 @@ An app that brings together communities/community projects and volunteers behind
 `Volunteer` -> `Community Group` -> `Activity/Project Suggestion`
 
 `Volunteer` -> `Newsfeed (potentially drawing articles and data from other volunteering sources)` 
+## DataBase 
+https://user-images.githubusercontent.com/25569778/28660086-90decb7e-72a9-11e7-87bc-0d95f8958083.png
 
 ## Team
 
