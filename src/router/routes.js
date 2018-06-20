@@ -32,4 +32,5 @@ app.delete('/event/:id', DB.delEvent);
 
 app.put('/users/:id',DB.updateUser);
 
+
 module.exports = app;
